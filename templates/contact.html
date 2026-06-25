@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — MediPredict</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0B1C17; --bg2: #111F1A; --card: #162820;
+      --mint: #00C896; --sage: #3DB87A;
+      --text: #E8F5EF; --muted: #7BA898; --border: rgba(0,200,150,0.15);
+    }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; }
+
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 4rem;
+      background: rgba(11,28,23,0.7); backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100;
+    }
+    .logo { font-family: 'Space Grotesk', sans-serif; font-size: 1.35rem; font-weight: 700; color: var(--mint); }
+    .logo span { color: var(--text); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--muted); font-size: 0.875rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--mint); }
+    .nav-cta { background: var(--mint); color: #071410; padding: 0.55rem 1.4rem; border-radius: 100px; font-size: 0.875rem; font-weight: 600; text-decoration: none; }
+
+    .page {
+      max-width: 1100px; margin: 0 auto;
+      padding: 5rem 2rem 6rem;
+      display: grid; grid-template-columns: 1fr 1.4fr; gap: 5rem; align-items: start;
+    }
+
+    /* Left side */
+    .eyebrow { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mint); margin-bottom: 0.75rem; }
+    h1 { font-family: 'Space Grotesk', sans-serif; font-size: 2.5rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 1rem; }
+    .contact-intro { color: var(--muted); line-height: 1.7; margin-bottom: 2.5rem; }
+
+    .contact-items { display: flex; flex-direction: column; gap: 1.25rem; }
+    .contact-item {
+      display: flex; align-items: flex-start; gap: 1rem;
+      padding: 1.25rem; background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+      transition: border-color 0.2s;
+    }
+    .contact-item:hover { border-color: var(--mint); }
+    .c-icon {
+      width: 42px; height: 42px; border-radius: 12px;
+      background: rgba(0,200,150,0.1); display: flex; align-items: center;
+      justify-content: center; font-size: 1.2rem; flex-shrink: 0;
+    }
+    .c-label { font-size: 0.75rem; color: var(--muted); font-weight: 500; margin-bottom: 0.2rem; text-transform: uppercase; letter-spacing: 0.06em; }
+    .c-val { font-size: 0.9rem; font-weight: 500; color: var(--text); }
+    .c-val a { color: var(--mint); text-decoration: none; }
+    .c-val a:hover { text-decoration: underline; }
+
+    .availability {
+      margin-top: 2rem; padding: 1.25rem; background: rgba(0,200,150,0.07);
+      border: 1px solid rgba(0,200,150,0.2); border-radius: 14px;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .av-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--mint); animation: blink 2s ease infinite; flex-shrink: 0; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .av-text { font-size: 0.82rem; color: var(--muted); }
+    .av-text strong { color: var(--mint); }
+
+    /* Right — Form */
+    .form-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 2.5rem;
+    }
+    .form-card h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 1.75rem; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1.25rem; }
+    .form-group label { font-size: 0.78rem; font-weight: 500; color: var(--muted); letter-spacing: 0.02em; }
+    .form-group input, .form-group select, .form-group textarea {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 10px;
+      padding: 0.7rem 0.9rem; color: var(--text); font-size: 0.875rem;
+      font-family: 'Inter', sans-serif; outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: var(--mint); box-shadow: 0 0 0 3px rgba(0,200,150,0.1);
+    }
+    .form-group textarea { resize: vertical; min-height: 130px; }
+    .form-group select option { background: var(--card); }
+
+    .char-count { font-size: 0.68rem; color: var(--muted); text-align: right; }
+
+    .btn-send {
+      width: 100%; background: linear-gradient(135deg, #00C896, #3DB87A);
+      color: #071410; padding: 0.9rem; border-radius: 100px; border: none;
+      font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 700;
+      cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 24px rgba(0,200,150,0.3);
+    }
+    .btn-send:hover { transform: translateY(-2px); box-shadow: 0 4px 32px rgba(0,200,150,0.45); }
+
+    .form-note { font-size: 0.75rem; color: var(--muted); text-align: center; margin-top: 0.9rem; }
+
+    /* Success state */
+    .success-panel {
+      display: none; text-align: center; padding: 2rem;
+    }
+    .success-panel.show { display: block; }
+    .success-icon { font-size: 3.5rem; margin-bottom: 1rem; animation: popIn 0.4s cubic-bezier(0.175,0.885,0.32,1.275); }
+    @keyframes popIn { from{transform:scale(0)} to{transform:scale(1)} }
+    .success-panel h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .success-panel p { color: var(--muted); margin-bottom: 1.5rem; }
+    .btn-back { background: none; border: 1px solid var(--border); color: var(--muted); padding: 0.65rem 1.5rem; border-radius: 100px; font-size: 0.875rem; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.2s; }
+    .btn-back:hover { border-color: var(--mint); color: var(--mint); }
+
+    /* FAQ */
+    .faq-section { max-width: 1100px; margin: 0 auto; padding: 0 2rem 6rem; }
+    .sec-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+    .faq-list { display: flex; flex-direction: column; gap: 1px; background: var(--border); border-radius: 16px; overflow: hidden; }
+    .faq-item { background: var(--card); }
+    .faq-q {
+      width: 100%; text-align: left; background: none; border: none;
+      padding: 1.25rem 1.5rem; font-family: 'Inter', sans-serif;
+      font-size: 0.95rem; font-weight: 500; color: var(--text);
+      cursor: pointer; display: flex; align-items: center; justify-content: space-between;
+      transition: background 0.2s;
+    }
+    .faq-q:hover { background: rgba(0,200,150,0.04); }
+    .faq-arrow { color: var(--mint); font-size: 1.1rem; transition: transform 0.3s; }
+    .faq-a {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.3s;
+      padding: 0 1.5rem; color: var(--muted); font-size: 0.875rem; line-height: 1.7;
+    }
+    .faq-item.open .faq-a { max-height: 200px; padding: 0 1.5rem 1.25rem; }
+    .faq-item.open .faq-arrow { transform: rotate(45deg); }
+
+    footer { border-top: 1px solid var(--border); padding: 2rem 4rem; display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-size: 0.82rem; }
+    footer a { color: var(--mint); text-decoration: none; }
+  </style>
+</head>
+<body>
+<nav>
+  <div class="logo">Medi<span>Predict</span></div>
+  <ul class="nav-links">
+    <li><a href="/index">Home</a></li>
+    <li><a href="/project">Predict</a></li>
+    <li><a href="/history">History</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/contact" class="active">Contact</a></li>
+  </ul>
+  <a href="/project" class="nav-cta">Start Predicting</a>
+</nav>
+
+<div class="page">
+  <!-- Left Info -->
+  <div>
+    <div class="eyebrow">Get In Touch</div>
+    <h1>Let's Talk Health + Tech</h1>
+    <p class="contact-intro">Whether you're a fellow CS student, a healthcare researcher, or just someone curious about the project — I'd love to hear from you.</p>
+
+    <div class="contact-items">
+      <div class="contact-item">
+        <div class="c-icon">📧</div>
+        <div>
+          <div class="c-label">Email</div>
+          <div class="c-val"><a href="mailto:suriyugansh2005@gmail.com">suriyugansh2005@gmail.com</a></div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="c-icon">💼</div>
+        <div>
+          <div class="c-label">LinkedIn</div>
+          <div class="c-val"><a href="https://www.linkedin.com/in/yuganshsuri/">linkedin.com/in/yuganshsuri</a></div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="c-icon">🐙</div>
+        <div>
+          <div class="c-label">GitHub</div>
+          <div class="c-val"><a href="https://github.com/yuganshsuri/Medi-Predict">github.com/yuganshsuri/medipredict</a></div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="c-icon">📍</div>
+        <div>
+          <div class="c-label">Location</div>
+          <div class="c-val">Jaipur, Rajasthan, India </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="availability">
+      <div class="av-dot"></div>
+      <div class="av-text">Currently <strong>available</strong> for internship opportunities and  collaborations</div>
+    </div>
+  </div>
+
+  <!-- Right Form -->
+  <div class="form-card">
+    <div id="formContent">
+      <h2>Send a Message</h2>
+      <form action="https://formspree.io/f/meebaqjo" method="post">
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" placeholder="Yugansh" id="fname" />
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" placeholder="Suri" id="lname" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" placeholder="suriyugansh2005@gmail.com" id="email" />
+      </div>
+      <div class="form-group">
+        <label>Subject</label>
+        <select id="subject">
+          <option value="">What's this about?</option>
+          <option>Project Feedback</option>
+          <option>Collaboration Inquiry</option>
+          <option>Dataset</option>
+          <option>Bug Report</option>
+          <option>Internship / Job</option>
+          <option>Small Talk?</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea placeholder="Tell me more…" id="message" oninput="updateCount(this)"></textarea>
+        <div class="char-count"><span id="charCount">0</span> / 500</div>
+      </div>
+      <button class="btn-send" onclick="sendMessage()">Send Message →</button>
+      <p class="form-note">Lets Connect</p>
+    </div>
+
+    <div class="success-panel" id="successPanel">
+      <div class="success-icon">🎉</div>
+      <h3>Message Sent!</h3>
+      <p>Thankyou for contacting,Yugansh will reply you shortly.</p>
+      <button class="btn-back" onclick="resetForm()">Send Another</button>
+    </div>
+  </div>
+</div>
+</form>
+
+<!-- FAQ -->
+<div class="faq-section">
+  <div class="sec-title">Frequently Asked Questions</div>
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        Is MediPredict a replacement for a doctor? <span class="faq-arrow">+</span>
+      </button>
+      <div class="faq-a">Absolutely not. MediPredict is an educational ML demonstration tool. Results should never be used as medical advice. Always consult a qualified healthcare professional for diagnosis and treatment.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        Where is my health data stored? <span class="faq-arrow">+</span>
+      </button>
+      <div class="faq-a">Nowhere externally. All prediction history is stored in your browser's localStorage only. Nothing is transmitted to any server. Clear your browser data at any time to remove it.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        Can I use MediPredict's code for my own project? <span class="faq-arrow">+</span>
+      </button>
+      <div class="faq-a">Yes! The project is open-source on GitHub. Fork it, learn from it, build on it. Attribution is appreciated but not required.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        How were the models trained and validated? <span class="faq-arrow">+</span>
+      </button>
+      <div class="faq-a">Each model used an 80/20 train-test split with 5-fold cross-validation. Metrics reported are on the held-out test set. Full notebooks with EDA, feature importance, and cleaned and training data are available on GitHub.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        Can I collaborate or contribute to the project? <span class="faq-arrow">+</span>
+      </button>
+      <div class="faq-a">Definitely. I'm open to collaborators interested in adding new disease models, improving the UI, or integrating real backend APIs. Use the contact form above or open a GitHub issue.</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="logo" style="font-size:1rem;">Medi<span>Predict</span></div>
+  <div>Built for better health awareness through ML. <a href="/about">Learn more →</a></div>
+  <div>© 2026 MediPredict</div>
+</footer>
+
+<script>
+function updateCount(el) {
+  const val = Math.min(el.value.length, 500);
+  el.value = el.value.slice(0, 500);
+  document.getElementById('charCount').textContent = val;
+}
+function sendMessage() {
+  const fname = document.getElementById('fname').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const message = document.getElementById('message').value.trim();
+  if (!fname || !email || !message) {
+    alert('Please fill in your name, email, and message.');
+    return;
+  }
+  document.getElementById('formContent').style.opacity = '0';
+  setTimeout(() => {
+    document.getElementById('formContent').style.display = 'none';
+    document.getElementById('successPanel').classList.add('show');
+  }, 300);
+}
+function resetForm() {
+  document.getElementById('fname').value = '';
+  document.getElementById('lname').value = '';
+  document.getElementById('email').value = '';
+  document.getElementById('subject').value = '';
+  document.getElementById('message').value = '';
+  document.getElementById('charCount').textContent = '0';
+  document.getElementById('successPanel').classList.remove('show');
+  document.getElementById('formContent').style.display = '';
+  document.getElementById('formContent').style.opacity = '1';
+}
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+</script>
+</body>
+</html>
