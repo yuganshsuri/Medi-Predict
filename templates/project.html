@@ -17,6 +17,15 @@
     }
     body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; }
 
+    /* ═══════ Ambient background orbs ═══════ */
+    body::before, body::after {
+      content: ''; position: fixed; border-radius: 50%; pointer-events: none; z-index: 0;
+      filter: blur(120px); opacity: 0.12;
+    }
+    body::before { width: 600px; height: 600px; background: var(--mint); top: -120px; left: -100px; }
+    body::after  { width: 500px; height: 500px; background: #3DB87A; bottom: -80px; right: -60px; }
+
+    /* ═══════ Nav ═══════ */
     nav {
       display: flex; align-items: center; justify-content: space-between;
       padding: 1.2rem 4rem;
@@ -28,122 +37,149 @@
     .nav-links { display: flex; gap: 2.5rem; list-style: none; }
     .nav-links a { text-decoration: none; color: var(--muted); font-size: 0.875rem; font-weight: 500; transition: color 0.2s; }
     .nav-links a:hover, .nav-links a.active { color: var(--mint); }
-    .nav-cta { background: var(--mint); color: #071410; padding: 0.55rem 1.4rem; border-radius: 100px; font-size: 0.875rem; font-weight: 600; text-decoration: none; }
+    .nav-cta { background: var(--mint); color: #071410; padding: 0.55rem 1.4rem; border-radius: 100px; font-size: 0.875rem; font-weight: 600; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; }
+    .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 4px 18px rgba(0,200,150,0.35); }
 
-    /* Layout */
-    .page { display: grid; grid-template-columns: 280px 1fr; min-height: calc(100vh - 64px); }
+    /* ═══════ Page shell ═══════ */
+    .page-wrapper { position: relative; z-index: 1; max-width: 1080px; margin: 0 auto; padding: 3rem 2rem 5rem; }
 
-    /* Sidebar */
-    .sidebar {
-      background: var(--bg2); border-right: 1px solid var(--border);
-      padding: 2rem 1.5rem; display: flex; flex-direction: column; gap: 0.5rem;
+    /* Header */
+    .page-header { text-align: center; margin-bottom: 2.5rem; }
+    .eyebrow {
+      display: inline-block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--mint); background: rgba(0,200,150,0.1);
+      padding: 0.35rem 1rem; border-radius: 100px; margin-bottom: 1rem;
     }
-    .sidebar-label {
-      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em;
-      text-transform: uppercase; color: var(--muted); padding: 0 0.75rem;
-      margin-bottom: 0.5rem; margin-top: 1rem;
+    .page-header h1 {
+      font-family: 'Space Grotesk', sans-serif; font-size: 2.4rem; font-weight: 700;
+      letter-spacing: -0.03em; line-height: 1.2;
     }
-    .sidebar-label:first-child { margin-top: 0; }
-    .disease-btn {
-      display: flex; align-items: center; gap: 0.85rem;
-      padding: 0.75rem; border-radius: 12px; cursor: pointer;
-      border: 1px solid transparent; background: none; width: 100%;
-      text-align: left; color: var(--muted); font-size: 0.875rem;
-      transition: all 0.2s; font-family: 'Inter', sans-serif;
-    }
-    .disease-btn:hover { background: var(--glow2); color: var(--text); border-color: var(--border); }
-    .disease-btn.active { background: rgba(0,200,150,0.1); color: var(--text); border-color: var(--border); }
-    .disease-btn .d-icon { font-size: 1.2rem; }
-    .disease-btn .d-acc { margin-left: auto; font-size: 0.72rem; color: var(--mint); font-weight: 600; }
+    .page-header p { color: var(--muted); margin-top: 0.6rem; font-size: 0.95rem; max-width: 520px; margin-inline: auto; }
 
-    /* Main */
-    .main { padding: 2.5rem 3rem; overflow-y: auto; }
-    .page-header { margin-bottom: 2rem; }
-    .eyebrow { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mint); margin-bottom: 0.5rem; }
-    .page-header h1 { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 700; letter-spacing: -0.03em; }
-    .page-header p { color: var(--muted); margin-top: 0.4rem; font-size: 0.9rem; }
-
-    /* Form Panel */
+    /* ═══════ Form Panel ═══════ */
     .form-panel {
       background: var(--card); border: 1px solid var(--border);
-      border-radius: 20px; padding: 2rem; margin-bottom: 1.5rem;
+      border-radius: 24px; padding: 2.5rem; margin-bottom: 1.5rem;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.2);
+      animation: panelIn 0.6s ease both;
     }
-    .form-panel h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 600; margin-bottom: 1.5rem; }
-    .form-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
-    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    @keyframes panelIn { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    .form-panel h2 {
+      font-family: 'Space Grotesk', sans-serif; font-size: 1.15rem; font-weight: 600;
+      margin-bottom: 1.8rem; display: flex; align-items: center; gap: 0.6rem;
+    }
+    .form-panel h2::before { content: ''; width: 4px; height: 1.15rem; border-radius: 4px; background: var(--mint); }
+
+    .form-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.45rem; position: relative; }
     .form-group label { font-size: 0.78rem; font-weight: 500; color: var(--muted); letter-spacing: 0.02em; }
     .form-group input, .form-group select {
       background: var(--bg2); border: 1px solid var(--border);
-      border-radius: 10px; padding: 0.65rem 0.9rem;
+      border-radius: 12px; padding: 0.72rem 1rem;
       color: var(--text); font-size: 0.875rem; font-family: 'Inter', sans-serif;
-      outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none; transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+      -webkit-appearance: none; appearance: none;
     }
     .form-group input:focus, .form-group select:focus {
-      border-color: var(--mint); box-shadow: 0 0 0 3px rgba(0,200,150,0.1);
+      border-color: var(--mint); box-shadow: 0 0 0 3px rgba(0,200,150,0.12);
+      background: rgba(0,200,150,0.04);
     }
-    .form-group select option { background: var(--card); }
-    .form-hint { font-size: 0.7rem; color: var(--muted); margin-top: -0.1rem; }
+    .form-group input::placeholder { color: var(--muted); opacity: 0.5; }
+    .form-group select option { background: var(--card); color: var(--text); }
+    /* Custom select arrow */
+    .form-group select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237BA898' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem;
+    }
+    .form-hint { font-size: 0.7rem; color: var(--muted); opacity: 0.7; }
 
-    .form-actions { display: flex; gap: 1rem; margin-top: 2rem; align-items: center; }
+    /* ═══════ Actions ═══════ */
+    .form-actions { display: flex; gap: 1rem; margin-top: 2.2rem; align-items: center; flex-wrap: wrap; }
     .btn-predict {
       background: linear-gradient(135deg, #00C896, #3DB87A);
-      color: #071410; padding: 0.8rem 2.2rem; border-radius: 100px;
+      color: #071410; padding: 0.85rem 2.6rem; border-radius: 100px;
       font-weight: 700; font-size: 0.95rem; border: none; cursor: pointer;
       transition: transform 0.2s, box-shadow 0.2s; font-family: 'Inter', sans-serif;
-      box-shadow: 0 0 20px rgba(0,200,150,0.3);
+      box-shadow: 0 0 24px rgba(0,200,150,0.3);
     }
-    .btn-predict:hover { transform: translateY(-2px); box-shadow: 0 4px 28px rgba(0,200,150,0.45); }
+    .btn-predict:hover { transform: translateY(-2px); box-shadow: 0 6px 32px rgba(0,200,150,0.5); }
+    .btn-predict:active { transform: scale(0.97); }
     .btn-reset {
       background: none; border: 1px solid var(--border); color: var(--muted);
-      padding: 0.8rem 1.5rem; border-radius: 100px; font-size: 0.875rem;
-      cursor: pointer; font-family: 'Inter', sans-serif; transition: border-color 0.2s;
+      padding: 0.85rem 1.6rem; border-radius: 100px; font-size: 0.875rem;
+      cursor: pointer; font-family: 'Inter', sans-serif; transition: border-color 0.25s, color 0.25s;
     }
     .btn-reset:hover { border-color: var(--mint); color: var(--text); }
+    .privacy-note { color: var(--muted); font-size: 0.78rem; margin-left: auto; }
 
-    /* Result */
+    /* ═══════ Validation ═══════ */
+    .form-group.error input, .form-group.error select { border-color: var(--danger); box-shadow: 0 0 0 3px rgba(255,107,107,0.1); }
+    .form-group .error-msg { font-size: 0.68rem; color: var(--danger); display: none; }
+    .form-group.error .error-msg { display: block; }
+
+    /* ═══════ Result Panel ═══════ */
     .result-panel {
-      border-radius: 20px; padding: 2rem;
+      border-radius: 24px; padding: 2.5rem;
       border: 1px solid var(--border); margin-bottom: 1.5rem;
-      display: none;
+      display: none; animation: resultIn 0.5s ease both;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.2);
     }
+    @keyframes resultIn { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
     .result-panel.show { display: block; }
-    .result-panel.positive {
-      background: rgba(255,107,107,0.07); border-color: rgba(255,107,107,0.3);
-    }
-    .result-panel.negative {
-      background: rgba(0,200,150,0.07); border-color: rgba(0,200,150,0.3);
-    }
+
+    /* Status-based themes */
+    .result-panel.status-healthy    { background: rgba(0,200,150,0.07); border-color: rgba(0,200,150,0.3); }
+    .result-panel.status-prediabetes { background: rgba(255,183,77,0.07); border-color: rgba(255,183,77,0.3); }
+    .result-panel.status-hypertension { background: rgba(255,152,0,0.07); border-color: rgba(255,152,0,0.3); }
+    .result-panel.status-heartdisease { background: rgba(255,107,107,0.07); border-color: rgba(255,107,107,0.3); }
+    .result-panel.status-diabetes   { background: rgba(211,47,47,0.07); border-color: rgba(211,47,47,0.3); }
+
     .result-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
-    .result-icon { font-size: 2.5rem; }
-    .result-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700; }
-    .result-subtitle { color: var(--muted); font-size: 0.875rem; }
-    .result-risk { display: flex; gap: 2rem; }
-    .risk-meter { flex: 1; }
-    .risk-meter-label { display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.82rem; color: var(--muted); }
-    .risk-bar { height: 8px; background: var(--bg2); border-radius: 100px; overflow: hidden; }
-    .risk-fill { height: 100%; border-radius: 100px; transition: width 1s ease; }
-    .risk-fill.low { background: linear-gradient(90deg, #00C896, #3DB87A); }
-    .risk-fill.med { background: linear-gradient(90deg, #FFB74D, #FF8F00); }
-    .risk-fill.high { background: linear-gradient(90deg, #FF6B6B, #D32F2F); }
-    .risk-score {
-      font-family: 'Space Grotesk', sans-serif; font-size: 3rem; font-weight: 700;
-      text-align: center; min-width: 100px;
+    .result-icon { font-size: 2.8rem; line-height: 1; }
+    .result-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.6rem; font-weight: 700; }
+    .result-subtitle { color: var(--muted); font-size: 0.875rem; margin-top: 0.15rem; }
+
+    .result-details { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.5rem; }
+    .detail-card {
+      background: rgba(0,0,0,0.15); border-radius: 14px; padding: 1.1rem;
+      border: 1px solid rgba(255,255,255,0.04);
     }
+    .detail-card .d-label { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.3rem; }
+    .detail-card .d-val { font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; font-weight: 700; }
+
     .result-tips { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
-    .result-tips h3 { font-size: 0.875rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--text); }
-    .tip-list { display: flex; flex-direction: column; gap: 0.4rem; }
-    .tip { font-size: 0.82rem; color: var(--muted); display: flex; gap: 0.5rem; }
+    .result-tips h3 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--text); }
+    .tip-list { display: flex; flex-direction: column; gap: 0.45rem; }
+    .tip { font-size: 0.82rem; color: var(--muted); display: flex; gap: 0.6rem; }
     .tip::before { content: '→'; color: var(--mint); flex-shrink: 0; }
 
-    /* Info aside */
-    .info-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; }
+    /* ═══════ Info cards ═══════ */
+    .info-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; animation: panelIn 0.6s 0.15s ease both; }
     .info-card {
       background: var(--card); border: 1px solid var(--border);
-      border-radius: 14px; padding: 1.25rem;
+      border-radius: 16px; padding: 1.4rem;
+      transition: border-color 0.3s, transform 0.3s;
     }
-    .info-card .i-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.4rem; }
-    .info-card .i-val { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--mint); }
+    .info-card:hover { border-color: rgba(0,200,150,0.35); transform: translateY(-3px); }
+    .info-card .i-icon { font-size: 1.4rem; margin-bottom: 0.6rem; }
+    .info-card .i-label { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.35rem; }
+    .info-card .i-val { font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--mint); }
     .info-card .i-sub { font-size: 0.78rem; color: var(--muted); margin-top: 0.15rem; }
+
+    /* ═══════ Responsive ═══════ */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .page-wrapper { padding: 2rem 1rem; }
+      .form-grid { grid-template-columns: repeat(2, 1fr); }
+      .info-cards { grid-template-columns: 1fr; }
+      .result-details { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .nav-links { gap: 1.2rem; }
+      .page-header h1 { font-size: 1.6rem; }
+      .privacy-note { margin-left: 0; margin-top: 0.5rem; }
+    }
   </style>
 </head>
 <body>
@@ -159,297 +195,157 @@
   <a href="/history" class="nav-cta">View History</a>
 </nav>
 
-<div class="page">
-  <!-- Sidebar -->
-  <aside class="sidebar">
-    <div class="sidebar-label">Disease Models</div>
-    <button class="disease-btn active" onclick="setDisease(this,'Heart Disease','❤️')">
-      <span class="d-icon">❤️</span> Heart Disease <span class="d-acc">95%</span>
-    </button>
-    <button class="disease-btn" onclick="setDisease(this,'Diabetes','🩸')">
-      <span class="d-icon">🩸</span> Diabetes <span class="d-acc">93%</span>
-    </button>
-    <button class="disease-btn" onclick="setDisease(this,'Parkinson\'s','🧠')">
-      <span class="d-icon">🧠</span> Parkinson's <span class="d-acc">97%</span>
-    </button>
-    <button class="disease-btn" onclick="setDisease(this,'Pneumonia','🫁')">
-      <span class="d-icon">🫁</span> Pneumonia <span class="d-acc">91%</span>
-    </button>
-    <button class="disease-btn" onclick="setDisease(this,'Cancer Risk','🔬')">
-      <span class="d-icon">🔬</span> Cancer Risk <span class="d-acc">98%</span>
-    </button>
-    <button class="disease-btn" onclick="setDisease(this,'Liver Disease','🦠')">
-      <span class="d-icon">🦠</span> Liver Disease <span class="d-acc">89%</span>
-    </button>
-    <button class="disease-btn" onclick="setDisease(this,'Kidney Disease','💧')">
-      <span class="d-icon">💧</span> Kidney Disease <span class="d-acc">92%</span>
-    </button>
-    <button class="disease-btn" onclick="setDisease(this,'Stroke Risk','⚡')">
-      <span class="d-icon">⚡</span> Stroke Risk <span class="d-acc">94%</span>
-    </button>
-  </aside>
+<div class="page-wrapper">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="eyebrow">🩺 AI-Powered Health Assessment</div>
+    <h1>Disease Prediction</h1>
+    <p>Enter your health parameters below and our machine learning model will predict potential health conditions.</p>
+  </div>
 
-  <!-- Main content -->
-  <main class="main">
-    <div class="page-header">
-      <div class="eyebrow">Prediction Tool</div>
-      <h1 id="disease-title">❤️ Heart Disease Prediction</h1>
-      <p id="disease-desc">Enter patient parameters to assess cardiac risk using our trained Random Forest model.</p>
+  <!-- Prediction Form -->
+  <form class="form-panel" id="predictionForm" method="POST" action="{{ url_for('predict') }}">
+    <h2>Patient Parameters</h2>
+    <div class="form-grid">
+
+      <!-- Age -->
+      <div class="form-group">
+        <label for="age">Age</label>
+        <input type="number" id="age" name="Age" placeholder="e.g. 45" min="0" max="120" required />
+        <span class="form-hint">In years</span>
+        <span class="error-msg">Please enter a valid age</span>
+      </div>
+
+      <!-- Gender -->
+      <div class="form-group">
+        <label for="gender">Gender</label>
+        <select id="gender" name="Gender" required>
+          <option value="" disabled selected>Select…</option>
+          <option value="0">Male</option>
+          <option value="1">Female</option>
+        </select>
+        <span class="error-msg">Please select a gender</span>
+      </div>
+
+      <!-- BMI -->
+      <div class="form-group">
+        <label for="bmi">BMI</label>
+        <input type="number" id="bmi" name="BMI" placeholder="e.g. 24.5" step="0.1" min="10" max="60" required />
+        <span class="form-hint">Normal: 18.5–24.9 kg/m²</span>
+        <span class="error-msg">Please enter a valid BMI</span>
+      </div>
+
+      <!-- Blood Pressure -->
+      <div class="form-group">
+        <label for="bp">Blood Pressure</label>
+        <input type="number" id="bp" name="BloodPressure" placeholder="e.g. 120" min="50" max="250" required />
+        <span class="form-hint">Systolic mm Hg</span>
+        <span class="error-msg">Please enter a valid BP</span>
+      </div>
+
+      <!-- Glucose Level -->
+      <div class="form-group">
+        <label for="glucose">Glucose Level</label>
+        <input type="number" id="glucose" name="GlucoseLevel" placeholder="e.g. 100" min="30" max="500" required />
+        <span class="form-hint">mg/dL — Normal: 70–99</span>
+        <span class="error-msg">Please enter a valid glucose level</span>
+      </div>
+
+      <!-- Cholesterol -->
+      <div class="form-group">
+        <label for="cholesterol">Cholesterol</label>
+        <input type="number" id="cholesterol" name="Cholesterol" placeholder="e.g. 200" min="50" max="500" required />
+        <span class="form-hint">mg/dL — Desirable: &lt;200</span>
+        <span class="error-msg">Please enter a valid cholesterol</span>
+      </div>
+
+      <!-- Heart Rate -->
+      <div class="form-group">
+        <label for="hr">Heart Rate</label>
+        <input type="number" id="hr" name="HeartRate" placeholder="e.g. 72" min="30" max="220" required />
+        <span class="form-hint">bpm — Normal: 60–100</span>
+        <span class="error-msg">Please enter a valid heart rate</span>
+      </div>
+
+      <!-- Smoking -->
+      <div class="form-group">
+        <label for="smoking">Smoking</label>
+        <select id="smoking" name="Smoking" required>
+          <option value="" disabled selected>Select…</option>
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </select>
+        <span class="error-msg">Please select an option</span>
+      </div>
+
+      <!-- Alcohol -->
+      <div class="form-group">
+        <label for="alcohol">Alcohol Consumption</label>
+        <select id="alcohol" name="Alcohol" required>
+          <option value="" disabled selected>Select…</option>
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </select>
+        <span class="error-msg">Please select an option</span>
+      </div>
+
+      <!-- Physical Activity -->
+      <div class="form-group">
+        <label for="activity">Physical Activity</label>
+        <select id="activity" name="PhysicalActivity" required>
+          <option value="" disabled selected>Select…</option>
+          <option value="0">Medium</option>
+          <option value="1">High</option>
+          <option value="2">Low</option>
+        </select>
+        <span class="error-msg">Please select an option</span>
+      </div>
+
+      <!-- Family History -->
+      <div class="form-group">
+        <label for="family">Family History</label>
+        <select id="family" name="FamilyHistory" required>
+          <option value="" disabled selected>Select…</option>
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </select>
+        <span class="error-msg">Please select an option</span>
+      </div>
+
     </div>
 
-    <!-- Result Panel -->
-    <div class="result-panel" id="resultPanel">
-      <div class="result-header">
-        <div class="result-icon" id="rIcon">✅</div>
-        <div>
-          <div class="result-title" id="rTitle">Low Risk Detected</div>
-          <div class="result-subtitle" id="rSubtitle">Heart Disease · Result generated just now</div>
-        </div>
-      </div>
-      <div class="result-risk">
-        <div class="risk-meter">
-          <div class="risk-meter-label">
-            <span>Risk Probability</span>
-            <span id="rPercText">22%</span>
-          </div>
-          <div class="risk-bar"><div class="risk-fill low" id="rBar" style="width:22%"></div></div>
-        </div>
-        <div class="risk-score" id="rScore">22%</div>
-      </div>
-      <div class="result-tips">
-        <h3>Recommendations</h3>
-        <div class="tip-list" id="rTips"></div>
-      </div>
+    <div class="form-actions">
+      <button type="submit" class="btn-predict" id="predictBtn">⚡ Run Prediction</button>
+      <button type="reset" class="btn-reset" id="resetBtn">Reset Fields</button>
     </div>
+  </form>
+  {% if prediction_label %}
+  <div class="info-card">
+    <h2>Predicted Disease is : {{ prediction_label }}</h2>
+  </div>
+  {% endif %}
 
-    <!-- Form -->
-    <div class="form-panel">
-      <h2>Patient Parameters</h2>
-      <div class="form-grid" id="formFields">
-        <!-- Populated by JS -->
-      </div>
-      <div class="form-actions">
-        <button class="btn-predict" onclick="runPrediction()">⚡ Run Prediction</button>
-        <button class="btn-reset" onclick="resetForm()">Reset Fields</button>
-        <span style="color:var(--muted);font-size:0.82rem;margin-left:auto;">All inputs are private — nothing is stored externally.</span>
-      </div>
+  <!-- Info Cards -->
+  <div class="info-cards">
+    <div class="info-card">
+      <div class="i-icon">🧬</div>
+      <div class="i-label">Model Type</div>
+      <div class="i-val">Random Forest</div>
+      <div class="i-sub">Ensemble classifier</div>
     </div>
-
-    <!-- Info Cards -->
-    <div class="info-cards">
-      <div class="info-card">
-        <div class="i-label">Model Type</div>
-        <div class="i-val" id="iModel">Random Forest</div>
-        <div class="i-sub">Ensemble classifier</div>
-      </div>
-      <div class="info-card">
-        <div class="i-label">Training Accuracy</div>
-        <div class="i-val" id="iAcc">95%</div>
-        <div class="i-sub">On clinical test set</div>
-      </div>
-      <div class="info-card">
-        <div class="i-label">Dataset Size</div>
-        <div class="i-val" id="iData">1,025</div>
-        <div class="i-sub">Patient records used</div>
-      </div>
+    <div class="info-card">
+      <div class="i-icon">📊</div>
+      <div class="i-label">Feature Inputs</div>
+      <div class="i-val">11</div>
+      <div class="i-sub">Health parameters analyzed</div>
     </div>
-  </main>
+    <div class="info-card">
+      <div class="i-icon">🎯</div>
+      <div class="i-label">Conditions Detected</div>
+      <div class="i-val">5</div>
+      <div class="i-sub">Healthy, Pre-Diabetes, Hypertension, Heart Disease, Diabetes</div>
+    </div>
+  </div>
 </div>
-
-<script>
-const diseases = {
-  'Heart Disease': {
-    icon: '❤️', acc: '95%', model: 'Random Forest', data: '1,025',
-    desc: 'Enter patient parameters to assess cardiac risk using our trained Random Forest model.',
-    fields: [
-      {label:'Age',name:'age',type:'number',hint:'In years'},
-      {label:'Sex',name:'sex',type:'select',opts:['Male','Female']},
-      {label:'Chest Pain Type',name:'cp',type:'select',opts:['Typical Angina','Atypical Angina','Non-anginal','Asymptomatic']},
-      {label:'Resting BP (mm Hg)',name:'trestbps',type:'number',hint:'Normal: 120'},
-      {label:'Cholesterol (mg/dl)',name:'chol',type:'number',hint:'Normal: < 200'},
-      {label:'Fasting Blood Sugar',name:'fbs',type:'select',opts:['>120 mg/dl','≤120 mg/dl']},
-      {label:'Resting ECG',name:'restecg',type:'select',opts:['Normal','ST-T Abnormality','LV Hypertrophy']},
-      {label:'Max Heart Rate',name:'thalach',type:'number',hint:'bpm'},
-      {label:'Exercise Angina',name:'exang',type:'select',opts:['No','Yes']},
-    ],
-    tips_low: ['Maintain regular aerobic exercise (150 min/week)','Keep cholesterol below 200 mg/dL','Monitor BP every 6 months'],
-    tips_high: ['Consult a cardiologist immediately','Avoid strenuous activity until reviewed','Review medication and diet with your doctor'],
-  },
-  'Diabetes': {
-    icon: '🩸', acc: '93%', model: 'SVM', data: '768',
-    desc: 'Assess Type 2 diabetes risk from glucose, BMI, insulin and family history.',
-    fields: [
-      {label:'Pregnancies',name:'preg',type:'number',hint:'0 if male'},
-      {label:'Glucose (mg/dL)',name:'glucose',type:'number',hint:'Normal: 70–99'},
-      {label:'Blood Pressure',name:'bp',type:'number',hint:'Diastolic mm Hg'},
-      {label:'Skin Thickness (mm)',name:'skin',type:'number',hint:'Triceps fold'},
-      {label:'Insulin (μU/mL)',name:'insulin',type:'number',hint:'2hr serum'},
-      {label:'BMI (kg/m²)',name:'bmi',type:'number',hint:'Normal: 18.5–24.9'},
-      {label:'Diabetes Pedigree',name:'dpf',type:'number',hint:'Family history score'},
-      {label:'Age',name:'age',type:'number',hint:'In years'},
-    ],
-    tips_low: ['Maintain healthy BMI between 18.5–24.9','Limit refined sugar and carbohydrates','Get fasting glucose tested annually'],
-    tips_high: ['Schedule HbA1c test immediately','Consult endocrinologist','Begin low-GI diet plan'],
-  },
-  "Parkinson's": {
-    icon: '🧠', acc: '97%', model: 'Neural Network', data: '195',
-    desc: 'Voice biomarker analysis to detect early Parkinson\'s disease signatures.',
-    fields: [
-      {label:'MDVP:Fo (Hz)',name:'fo',type:'number',hint:'Avg vocal frequency'},
-      {label:'MDVP:Fhi (Hz)',name:'fhi',type:'number',hint:'Max vocal frequency'},
-      {label:'MDVP:Flo (Hz)',name:'flo',type:'number',hint:'Min vocal frequency'},
-      {label:'MDVP:Jitter (%)',name:'jitter',type:'number',hint:'Freq variation'},
-      {label:'MDVP:Shimmer',name:'shimmer',type:'number',hint:'Amp variation'},
-      {label:'NHR',name:'nhr',type:'number',hint:'Noise-to-harmonics'},
-      {label:'HNR',name:'hnr',type:'number',hint:'Harmonics-to-noise'},
-      {label:'RPDE',name:'rpde',type:'number',hint:'Nonlinear dynamics'},
-      {label:'DFA',name:'dfa',type:'number',hint:'Signal fractal scaling'},
-    ],
-    tips_low: ['Maintain regular physical therapy exercises','Log any tremor or balance episodes','Annual neurological check-up recommended'],
-    tips_high: ['Refer to movement disorder specialist','Begin occupational therapy assessment','Review dopamine-related medications'],
-  },
-  'Pneumonia': {
-    icon: '🫁', acc: '91%', model: 'Gradient Boosting', data: '5,856',
-    desc: 'Identify respiratory infections from symptom clusters and clinical values.',
-    fields: [
-      {label:'Age',name:'age',type:'number',hint:'In years'},
-      {label:'Fever (°C)',name:'temp',type:'number',hint:'Normal: 36.5–37.5'},
-      {label:'Oxygen Saturation (%)',name:'o2',type:'number',hint:'Normal: 95–100'},
-      {label:'Respiratory Rate',name:'rr',type:'number',hint:'Breaths/min'},
-      {label:'Cough Severity',name:'cough',type:'select',opts:['None','Mild','Moderate','Severe']},
-      {label:'Chest Pain',name:'chest',type:'select',opts:['None','Mild','Severe']},
-      {label:'Fatigue Level',name:'fatigue',type:'select',opts:['None','Mild','Severe']},
-    ],
-    tips_low: ['Complete rest and stay hydrated','Monitor temperature every 4 hours','Seek care if SpO2 drops below 94%'],
-    tips_high: ['Seek emergency care immediately','Chest X-ray and blood culture needed','Begin broad-spectrum antibiotic therapy'],
-  },
-  'Cancer Risk': {
-    icon: '🔬', acc: '98%', model: 'Logistic Regression', data: '569',
-    desc: 'Breast cancer malignancy classifier based on cell nucleus features.',
-    fields: [
-      {label:'Radius Mean',name:'radius',type:'number',hint:'Mean of cell radius'},
-      {label:'Texture Mean',name:'texture',type:'number',hint:'Std dev of gray scale'},
-      {label:'Perimeter Mean',name:'perim',type:'number',hint:'Mean perimeter'},
-      {label:'Area Mean',name:'area',type:'number',hint:'Mean area'},
-      {label:'Smoothness Mean',name:'smooth',type:'number',hint:'Local radius variation'},
-      {label:'Compactness Mean',name:'compact',type:'number',hint:'Perimeter²/area−1'},
-      {label:'Concavity Mean',name:'concav',type:'number',hint:'Concave portions'},
-    ],
-    tips_low: ['Continue regular mammography screenings','Self-examine monthly','Maintain low-fat diet and exercise'],
-    tips_high: ['Immediate referral to oncologist','Biopsy confirmation required','Do not delay follow-up imaging'],
-  },
-  'Liver Disease': {
-    icon: '🦠', acc: '89%', model: 'Decision Tree', data: '583',
-    desc: 'Liver function scoring via enzyme levels, bilirubin, and albumin markers.',
-    fields: [
-      {label:'Age',name:'age',type:'number',hint:'In years'},
-      {label:'Gender',name:'gender',type:'select',opts:['Male','Female']},
-      {label:'Total Bilirubin',name:'tb',type:'number',hint:'Normal: 0.1–1.2 mg/dL'},
-      {label:'Direct Bilirubin',name:'db',type:'number',hint:'Normal: 0.0–0.3 mg/dL'},
-      {label:'Alkaline Phosphatase',name:'alkphos',type:'number',hint:'IU/L'},
-      {label:'SGPT (ALT)',name:'sgpt',type:'number',hint:'Normal: 7–56 U/L'},
-      {label:'SGOT (AST)',name:'sgot',type:'number',hint:'Normal: 10–40 U/L'},
-    ],
-    tips_low: ['Limit alcohol intake','Avoid hepatotoxic medications','LFT panel annually'],
-    tips_high: ['Hepatologist referral urgently','Ultrasound abdomen required','Complete liver panel with biopsy consideration'],
-  },
-  'Kidney Disease': {
-    icon: '💧', acc: '92%', model: 'KNN', data: '400',
-    desc: 'Chronic kidney disease prediction from blood and urine test values.',
-    fields: [
-      {label:'Age',name:'age',type:'number',hint:'In years'},
-      {label:'Blood Pressure',name:'bp',type:'number',hint:'mm Hg'},
-      {label:'Specific Gravity',name:'sg',type:'number',hint:'Urine: 1.005–1.030'},
-      {label:'Albumin',name:'al',type:'number',hint:'0–5 scale'},
-      {label:'Sugar',name:'su',type:'number',hint:'0–5 scale'},
-      {label:'Blood Glucose',name:'bgr',type:'number',hint:'mg/dL'},
-      {label:'Blood Urea',name:'bu',type:'number',hint:'Normal: 6–20 mg/dL'},
-      {label:'Serum Creatinine',name:'sc',type:'number',hint:'Normal: 0.6–1.2 mg/dL'},
-    ],
-    tips_low: ['Stay hydrated (2L water/day)','Limit sodium and protein intake','Annual kidney function test'],
-    tips_high: ['Nephrologist referral immediately','Dialysis suitability assessment','Restrict potassium and phosphate diet'],
-  },
-  'Stroke Risk': {
-    icon: '⚡', acc: '94%', model: 'XGBoost', data: '5,110',
-    desc: 'Predict stroke probability from lifestyle and clinical biomarkers.',
-    fields: [
-      {label:'Age',name:'age',type:'number',hint:'In years'},
-      {label:'Hypertension',name:'hyp',type:'select',opts:['No','Yes']},
-      {label:'Heart Disease History',name:'hd',type:'select',opts:['No','Yes']},
-      {label:'Ever Married',name:'married',type:'select',opts:['No','Yes']},
-      {label:'Work Type',name:'work',type:'select',opts:['Private','Self-employed','Govt','Never worked']},
-      {label:'Avg Glucose (mg/dL)',name:'glucose',type:'number',hint:'Normal: 70–99'},
-      {label:'BMI',name:'bmi',type:'number',hint:'Normal: 18.5–24.9'},
-      {label:'Smoking Status',name:'smoke',type:'select',opts:['Never','Formerly','Currently Smokes']},
-    ],
-    tips_low: ['Control blood pressure below 130/80','Quit smoking if applicable','Maintain healthy weight and active lifestyle'],
-    tips_high: ['Emergency neurologist consultation','Carotid ultrasound and MRI recommended','Begin antiplatelet or anticoagulant therapy as prescribed'],
-  },
-};
-
-let currentDisease = 'Heart Disease';
-
-function setDisease(btn, name, icon) {
-  document.querySelectorAll('.disease-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  currentDisease = name;
-  const d = diseases[name];
-  document.getElementById('disease-title').textContent = `${d.icon} ${name} Prediction`;
-  document.getElementById('disease-desc').textContent = d.desc;
-  document.getElementById('iModel').textContent = d.model;
-  document.getElementById('iAcc').textContent = d.acc;
-  document.getElementById('iData').textContent = d.data;
-  buildForm(name);
-  document.getElementById('resultPanel').classList.remove('show');
-}
-
-function buildForm(name) {
-  const d = diseases[name];
-  const grid = document.getElementById('formFields');
-  grid.innerHTML = '';
-  d.fields.forEach(f => {
-    const div = document.createElement('div');
-    div.className = 'form-group';
-    if (f.type === 'select') {
-      div.innerHTML = `<label>${f.label}</label>
-        <select><option value="">Select…</option>${f.opts.map(o=>`<option>${o}</option>`).join('')}</select>`;
-    } else {
-      div.innerHTML = `<label>${f.label}</label>
-        <input type="number" placeholder="${f.hint || ''}">
-        ${f.hint ? `<span class="form-hint">${f.hint}</span>` : ''}`;
-    }
-    grid.appendChild(div);
-  });
-}
-
-function runPrediction() {
-  const d = diseases[currentDisease];
-  const risk = Math.floor(Math.random() * 85) + 10;
-  const panel = document.getElementById('resultPanel');
-  panel.className = 'result-panel show ' + (risk > 50 ? 'positive' : 'negative');
-  document.getElementById('rIcon').textContent = risk > 50 ? '⚠️' : '✅';
-  document.getElementById('rTitle').textContent = risk > 70 ? 'High Risk Detected' : risk > 40 ? 'Moderate Risk' : 'Low Risk Detected';
-  document.getElementById('rSubtitle').textContent = `${currentDisease} · Result generated just now`;
-  document.getElementById('rPercText').textContent = `${risk}%`;
-  document.getElementById('rScore').textContent = `${risk}%`;
-  document.getElementById('rScore').style.color = risk > 60 ? '#FF6B6B' : risk > 40 ? '#FFB74D' : 'var(--mint)';
-  const bar = document.getElementById('rBar');
-  bar.style.width = '0%';
-  bar.className = 'risk-fill ' + (risk > 60 ? 'high' : risk > 35 ? 'med' : 'low');
-  setTimeout(() => { bar.style.width = risk + '%'; }, 100);
-  const tips = risk > 50 ? d.tips_high : d.tips_low;
-  document.getElementById('rTips').innerHTML = tips.map(t => `<div class="tip">${t}</div>`).join('');
-  panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-  // Save to history
-  const history = JSON.parse(localStorage.getItem('mp_history') || '[]');
-  history.unshift({ disease: currentDisease, risk, date: new Date().toLocaleString(), icon: d.icon });
-  localStorage.setItem('mp_history', JSON.stringify(history.slice(0, 50)));
-}
-
-function resetForm() { buildForm(currentDisease); document.getElementById('resultPanel').classList.remove('show'); }
-
-buildForm('Heart Disease');
-</script>
 </body>
 </html>
